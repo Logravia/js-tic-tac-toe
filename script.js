@@ -35,8 +35,6 @@ let board = ( function () {
     return false;
   }
 
-  const _column = (arr, n) => arr.map(x => x[n]);
-
   const _verticalWin = () => {
     for (let i = 0; i < state.length; i++) {
       col = _column(state, i);
@@ -62,12 +60,3 @@ let board = ( function () {
 
   return {state, win, tie, unfinished, putToken};
 })();
-
-board.state[0][0] = 1
-board.state[0][1] = 2
-board.state[0][2] = 1
-board.state[1][0] = 1
-board.state[2][0] = 1
-
-console.log(board.state)
-console.log(board.win())
