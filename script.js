@@ -45,6 +45,9 @@ let board = ( function () {
     return false;
   }
 
+
+  const _column = (rows, n) => rows.map(row => row[n]);
+
   return {state, win, tie, unfinished, putToken};
 })();
 
