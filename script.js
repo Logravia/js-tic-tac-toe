@@ -12,7 +12,7 @@ let board = ( function () {
   function putToken(x, y, token) { state[y][x] = token; }
 
   const win = () => {
-    return _horizontalWin() || _verticalWin()
+    return _horizontalWin() || _verticalWin() || _diagonalWin();
   }
 
   const tie = () => {
