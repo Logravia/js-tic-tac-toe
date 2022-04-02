@@ -16,11 +16,11 @@ let board = ( function () {
   }
 
   const tie = () => {
-    return !unfinished() && !win();
+    return finished() && !win();
   }
 
-  const unfinished = () => {
-    return !state.flat().every(sq => sq !== EMPTY);
+  const finished = () => {
+    return state.flat().every(sq => sq !== EMPTY);
   }
 
   const _allEqual = (row) => {
@@ -58,5 +58,5 @@ let board = ( function () {
 
   const _column = (rows, n) => rows.map(row => row[n]);
 
-  return {state, win, tie, unfinished, putToken};
+  return {state, win, tie, finished, putToken};
 })();
