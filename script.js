@@ -45,6 +45,18 @@ let board = ( function () {
     return false;
   }
 
+  const _diagonalWin = () => {
+    // TODO: gather diagonals programatically on any n*m board
+    diagonals = [
+      [state[0][0],
+      state[1][1],
+      state[2][2]],
+      [state[0][2],
+      state[1][1],
+      state[2][0]]
+    ]
+    return _horizontalWin(diagonals);
+  }
 
   const _column = (rows, n) => rows.map(row => row[n]);
 
