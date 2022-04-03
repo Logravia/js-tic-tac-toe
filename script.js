@@ -1,6 +1,9 @@
+// Holds references to buttons and button-squares
+// Has methods allowing reset and locking of squares.
 const buttons = (function () {
   const squareList = document.querySelectorAll(".square");
   const resetBtn = document.querySelector(".reset");
+
   const lockSqrs = () => {squareList.forEach(btn => btn.setAttribute("disabled", "true"))}
   const reset = () => {
     squareList.forEach(btn => btn.removeAttribute("disabled") );
@@ -8,6 +11,9 @@ const buttons = (function () {
   return {squareList, resetBtn, reset, lockSqrs}
 })();
 
+// Contains the state of the board, e.g. where tokens have been put.
+// Allows the placement of tokens,
+// Allows to determine whether the game has been won, finished or ended in a tie.
 const board = ( function () {
   const WIDTH = 3;
   const HEIGHT = 3;
@@ -46,7 +52,6 @@ const board = ( function () {
     return row.every(sq => sq === row[0] && sq !== EMPTY)
   }
 
-
   const _horizontalWin = (board = state) => {
     for (row of board) {
       if (_allEqual(row)) {return true;}
@@ -63,7 +68,6 @@ const board = ( function () {
   }
 
   const _diagonalWin = () => {
-    // TODO: gather diagonals programatically on any n*m board
     diagonals = [
       [state[0][0],
       state[1][1],
@@ -75,11 +79,14 @@ const board = ( function () {
     return _horizontalWin(diagonals);
   }
 
+  // returns nth column from a 2D array.
   const _column = (rows, n) => rows.map(row => row[n]);
 
   return {state, reset, WIDTH, HEIGHT, win, tie, finished, putToken};
 })();
 
+// Sets the value of squares by reading the state of the board.
+// Sets victory, tie messages to the page.
 const display = ( function (board) {
   const btns = document.querySelectorAll(".square")
 
@@ -105,6 +112,7 @@ const display = ( function (board) {
   return {update, victoryMsg, tieMsg}
 })(board);
 
+// Deals with resetting the game, ordering display to put up messages on win or tie.
 const game = (function(board, display, buttons) {
   const reset = () => {
     board.reset();
@@ -120,8 +128,12 @@ const game = (function(board, display, buttons) {
   return {reset, checkState}
 })(board, display, buttons);
 
+// Sets up button connection the state of the board.
+// Informs other objects of button clicks e.g. informs game that reset button has been pressed.
+// Or board that square button at x,y has been pressed.
 const input = (function (display, board, game) {
 
+  // What to do when player clicks on a square
   const _tokenPlacement = (e) => {
     let btn = e.target;
     let x = parseInt(btn.getAttribute("x"));
@@ -133,6 +145,7 @@ const input = (function (display, board, game) {
     btn.setAttribute("disabled", "true");
   }
 
+  // To identify which button has been pressed
   const _labelBtn = (btn, x, y) => {
     btn.setAttribute("x", x);
     btn.setAttribute("y", y)
@@ -143,7 +156,7 @@ const input = (function (display, board, game) {
     resetBtn.addEventListener("click", game.reset);
   }
 
-  // Each button gets labeled (linked to an element in board.state) and added an event listener
+  // Each button gets labeled and assigned an event listener
   const _processSqrBtns = ()=> {
     let btns = document.querySelectorAll(".square").values();
 
