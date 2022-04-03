@@ -120,11 +120,17 @@ const input = (function (display, board) {
       for (let x = 0 ; x < board.WIDTH; x++) {
        btn = btns.next().value;
        _labelBtn(btn, x, y);
-       btn.addEventListener("click", _reactToClick);
+       btn.addEventListener("click", _tokenPlacement);
      }
     }
   }
 
-  _processBtns();
+  _processSqrBtns();
+  _setUpResetBtn();
 
-})(display, board);
+})(display, board, game);
+
+const Player = (name) => {
+  let score = 0;
+  return {name, score}
+}
