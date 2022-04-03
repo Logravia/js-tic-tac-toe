@@ -1,8 +1,11 @@
 const buttons = (function () {
   const squareList = document.querySelectorAll(".square");
-  const reset = document.querySelector(".reset");
-
-  return {squares: squareList.values(), reset: reset}
+  const resetBtn = document.querySelector(".reset");
+  const lockSqrs = () => {squareList.forEach(btn => btn.setAttribute("disabled", "true"))}
+  const reset = () => {
+    squareList.forEach(btn => btn.removeAttribute("disabled") );
+  }
+  return {squareList, resetBtn, reset, lockSqrs}
 })();
 
 const board = ( function () {
@@ -85,23 +88,37 @@ const display = ( function (board) {
 
     for (let y = 0; y < board.HEIGHT; y++) {
       for (let x = 0 ; x < board.WIDTH; x++) {
-        btn = btnsIterable.next().value
+        let btn = btnsIterable.next().value
         btn.textContent = board.state[y][x];
      }
     }
   }
 
-  return {update}
+  const victoryMsg = () => {
+    console.log("Win!");
+  }
+
+  const tieMsg = () => {
+    console.log("Tie!");
+  }
+
+  return {update, victoryMsg, tieMsg}
 })(board);
 
-const game = (function(board, display) {
+const game = (function(board, display, buttons) {
   const reset = () => {
     board.reset();
+    buttons.reset();
     display.update();
   }
 
-  return {reset}
-})(board, display);
+  const checkState = () => {
+    if (board.win()) { display.victoryMsg(); buttons.lockSqrs(); }
+    if (board.tie()) { display.tieMsg() }
+  }
+
+  return {reset, checkState}
+})(board, display, buttons);
 
 const input = (function (display, board, game) {
 
@@ -112,6 +129,7 @@ const input = (function (display, board, game) {
 
     board.putToken(x, y);
     display.update();
+    game.checkState();
     btn.setAttribute("disabled", "true");
   }
 
