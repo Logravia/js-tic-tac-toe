@@ -11,6 +11,9 @@ let board = ( function () {
 
   let state = initState();
 
+  const reset = () => {
+    state = initState();
+  }
 
   const putToken = (x, y) => {
     curToken = curToken == "X" ? "O" : "X";
