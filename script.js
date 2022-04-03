@@ -16,11 +16,11 @@ const board = ( function () {
     return Array(WIDTH).fill().map(_e => Array(HEIGHT).fill(EMPTY));
   }
 
-  let state = initState();
-
   const reset = () => {
-    state = initState();
+    state.forEach(row => row.fill(EMPTY));
   }
+
+  let state = initState();
 
   const putToken = (x, y) => {
     curToken = curToken == "X" ? "O" : "X";
@@ -77,7 +77,7 @@ const board = ( function () {
   return {state, reset, WIDTH, HEIGHT, win, tie, finished, putToken};
 })();
 
-let display = ( function (board) {
+const display = ( function (board) {
   const btns = document.querySelectorAll(".square")
 
   const update = () => {
@@ -94,9 +94,18 @@ let display = ( function (board) {
   return {update}
 })(board);
 
-const input = (function (display, board) {
+const game = (function(board, display) {
+  const reset = () => {
+    board.reset();
+    display.update();
+  }
 
-  const _reactToClick = (e) => {
+  return {reset}
+})(board, display);
+
+const input = (function (display, board, game) {
+
+  const _tokenPlacement = (e) => {
     let btn = e.target;
     let x = parseInt(btn.getAttribute("x"));
     let y = parseInt(btn.getAttribute("y"));
@@ -111,8 +120,13 @@ const input = (function (display, board) {
     btn.setAttribute("y", y)
   }
 
+  const _setUpResetBtn = () => {
+    resetBtn = document.querySelector(".reset");
+    resetBtn.addEventListener("click", game.reset);
+  }
+
   // Each button gets labeled (linked to an element in board.state) and added an event listener
-  const _processBtns = ()=> {
+  const _processSqrBtns = ()=> {
     let btns = document.querySelectorAll(".square").values();
 
     // Each button corresponds to an element in board[y][x]
