@@ -88,6 +88,17 @@ let display = ( function (board) {
 })(board);
 
 const input = (function (display, board) {
+
+  const _reactToClick = (e) => {
+    let btn = e.target;
+    let x = parseInt(btn.getAttribute("x"));
+    let y = parseInt(btn.getAttribute("y"));
+
+    board.putToken(x, y);
+    display.update();
+    btn.setAttribute("disabled", "true");
+  }
+
   const _labelBtn = (btn, x, y) => {
     btn.setAttribute("x", x);
     btn.setAttribute("y", y)
