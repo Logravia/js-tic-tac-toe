@@ -67,5 +67,5 @@ let board = ( function () {
 
   const _column = (rows, n) => rows.map(row => row[n]);
 
-  return {state, win, tie, finished, putToken};
+  return {state, reset, WIDTH, HEIGHT, win, tie, finished, putToken};
 })();
