@@ -3,13 +3,19 @@ let board = ( function () {
   const HEIGHT = 3;
   const EMPTY = undefined;
 
+  let curToken = 'O';
+
   const initState = () => {
     return Array(WIDTH).fill().map(_e => Array(HEIGHT).fill(EMPTY));
   }
 
   let state = initState();
 
-  function putToken(x, y, token) { state[y][x] = token; }
+
+  const putToken = (x, y) => {
+    curToken = curToken == "X" ? "O" : "X";
+    state[y][x] = curToken;
+  }
 
   const win = () => {
     return _horizontalWin() || _verticalWin() || _diagonalWin();
