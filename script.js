@@ -87,3 +87,9 @@ let display = ( function (board) {
   return {update}
 })(board);
 
+const input = (function (display, board) {
+  const _labelBtn = (btn, x, y) => {
+    btn.setAttribute("x", x);
+    btn.setAttribute("y", y)
+  }
+})(display, board);
