@@ -69,3 +69,21 @@ let board = ( function () {
 
   return {state, reset, WIDTH, HEIGHT, win, tie, finished, putToken};
 })();
+
+let display = ( function (board) {
+  const btns = document.querySelectorAll(".square")
+
+  const update = () => {
+    btnsIterable = btns.values();
+
+    for (let y = 0; y < board.HEIGHT; y++) {
+      for (let x = 0 ; x < board.WIDTH; x++) {
+        btn = btnsIterable.next().value
+        btn.textContent = board.state[y][x];
+     }
+    }
+  }
+
+  return {update}
+})(board);
+
