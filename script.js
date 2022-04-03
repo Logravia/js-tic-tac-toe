@@ -1,4 +1,11 @@
-let board = ( function () {
+const buttons = (function () {
+  const squareList = document.querySelectorAll(".square");
+  const reset = document.querySelector(".reset");
+
+  return {squares: squareList.values(), reset: reset}
+})();
+
+const board = ( function () {
   const WIDTH = 3;
   const HEIGHT = 3;
   const EMPTY = undefined;
