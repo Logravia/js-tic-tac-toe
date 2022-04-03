@@ -103,4 +103,21 @@ const input = (function (display, board) {
     btn.setAttribute("x", x);
     btn.setAttribute("y", y)
   }
+
+  // Each button gets labeled (linked to an element in board.state) and added an event listener
+  const _processBtns = ()=> {
+    let btns = document.querySelectorAll(".square").values();
+
+    // Each button corresponds to an element in board[y][x]
+    for (let y = 0; y < board.HEIGHT; y++) {
+      for (let x = 0 ; x < board.WIDTH; x++) {
+       btn = btns.next().value;
+       _labelBtn(btn, x, y);
+       btn.addEventListener("click", _reactToClick);
+     }
+    }
+  }
+
+  _processBtns();
+
 })(display, board);
