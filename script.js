@@ -1,14 +1,20 @@
 // Holds references to buttons and button-squares
 // Has methods allowing reset and locking of squares.
-const buttons = (function () {
+const gameElements = (function () {
   const squareList = document.querySelectorAll(".square");
   const resetBtn = document.querySelector(".reset");
+  const title = document.querySelector(".title");
+  const playerNames = () => {
+    let p1Name = document.querySelector("#p1").value
+    let p2Name = document.querySelector("#p2").value
+    return {x: p1Name, o: p2Name}
+  }
 
   const lockSqrs = () => {squareList.forEach(btn => btn.setAttribute("disabled", "true"))}
   const reset = () => {
-    squareList.forEach(btn => btn.removeAttribute("disabled") );
+    squareList.forEach(btn => btn.removeAttribute("disabled"));
   }
-  return {squareList, resetBtn, reset, lockSqrs}
+  return {squareList, resetBtn, reset, lockSqrs, playerNames, title}
 })();
 
 // Contains the state of the board, e.g. where tokens have been put.
@@ -87,7 +93,7 @@ const board = ( function () {
 
 // Sets the value of squares by reading the state of the board.
 // Sets victory, tie messages to the page.
-const display = ( function (board) {
+const display = ( function (board, inputElements) {
   const btns = document.querySelectorAll(".square")
 
   const update = () => {
@@ -101,23 +107,32 @@ const display = ( function (board) {
     }
   }
 
+  const setMsg = (text) => {
+    inputElements.title.textContent = text;
+  }
+
   const victoryMsg = () => {
-    console.log("Win!");
+    setMsg("Victory!")
   }
 
   const tieMsg = () => {
-    console.log("Tie!");
+    setMsg("Tie")
   }
 
-  return {update, victoryMsg, tieMsg}
-})(board);
+  const reset = () => {
+    update();
+    setMsg("Tic-Tac-Toe")
+  }
+
+  return {update, victoryMsg, tieMsg, reset}
+})(board, gameElements);
 
 // Deals with resetting the game, ordering display to put up messages on win or tie.
 const game = (function(board, display, buttons) {
   const reset = () => {
     board.reset();
     buttons.reset();
-    display.update();
+    display.reset();
   }
 
   const checkState = () => {
@@ -126,7 +141,7 @@ const game = (function(board, display, buttons) {
   }
 
   return {reset, checkState}
-})(board, display, buttons);
+})(board, display, gameElements);
 
 // Sets up button connection the state of the board.
 // Informs other objects of button clicks e.g. informs game that reset button has been pressed.
