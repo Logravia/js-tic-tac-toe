@@ -1,5 +1,5 @@
-// Holds references to buttons and button-squares
-// Has methods allowing reset and locking of squares.
+// Holds references and utility methods relating to game elements such the squares where tokens can be placed,
+// Reset button, input element values etc
 const gameElements = (function () {
   const squareList = document.querySelectorAll(".square");
   const resetBtn = document.querySelector(".reset");
@@ -7,7 +7,7 @@ const gameElements = (function () {
   const playerNames = () => {
     let p1Name = document.querySelector("#p1").value
     let p2Name = document.querySelector("#p2").value
-    return {x: p1Name, o: p2Name}
+    return {"X": p1Name, "O": p2Name}
   }
 
   const lockSqrs = () => {squareList.forEach(btn => btn.setAttribute("disabled", "true"))}
@@ -33,7 +33,10 @@ const board = ( function () {
 
   const reset = () => {
     state.forEach(row => row.fill(EMPTY));
+    curToken = 'O';
   }
+
+  const getCurToken = () => curToken;
 
   let state = initState();
 
@@ -88,7 +91,7 @@ const board = ( function () {
   // returns nth column from a 2D array.
   const _column = (rows, n) => rows.map(row => row[n]);
 
-  return {state, reset, WIDTH, HEIGHT, win, tie, finished, putToken};
+  return {state, reset, WIDTH, HEIGHT, win, tie, finished, putToken, getCurToken};
 })();
 
 // Sets the value of squares by reading the state of the board.
@@ -112,7 +115,8 @@ const display = ( function (board, inputElements) {
   }
 
   const victoryMsg = () => {
-    setMsg("Victory!")
+    playerName = inputElements.playerNames()[board.getCurToken()];
+    setMsg(playerName + " won!")
   }
 
   const tieMsg = () => {
