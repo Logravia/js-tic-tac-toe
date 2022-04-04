@@ -11,10 +11,10 @@ const gameElements = (function () {
   }
 
   const lockSqrs = () => {squareList.forEach(btn => btn.setAttribute("disabled", "true"))}
-  const reset = () => {
+  const resetSqrs = () => {
     squareList.forEach(btn => btn.removeAttribute("disabled"));
   }
-  return {squareList, resetBtn, reset, lockSqrs, playerNames, title}
+  return {squareList, resetBtn, resetSqrs, lockSqrs, playerNames, title}
 })();
 
 // Contains the state of the board, e.g. where tokens have been put.
@@ -128,15 +128,15 @@ const display = ( function (board, inputElements) {
 })(board, gameElements);
 
 // Deals with resetting the game, ordering display to put up messages on win or tie.
-const game = (function(board, display, buttons) {
+const game = (function(board, display, gameElements) {
   const reset = () => {
     board.reset();
-    buttons.reset();
+    gameElements.resetSqrs();
     display.reset();
   }
 
   const checkState = () => {
-    if (board.win()) { display.victoryMsg(); buttons.lockSqrs(); }
+    if (board.win()) { display.victoryMsg(); gameElements.lockSqrs(); }
     if (board.tie()) { display.tieMsg() }
   }
 
