@@ -7,8 +7,7 @@
         <script src="script.js" defer></script>
     </head>
     <body>
-        <h1>Tic-Tac-Toe</h1>
-
+        <h1 class="title">Tic-Tac-Toe</h1>
         <div class="container">
             <button class="square"></button>
             <button class="square"></button>
@@ -20,6 +19,21 @@
             <button class="square"></button>
             <button class="square"></button>
         </div>
-        <button class="reset">RESET</button>
+
+        <div class="controls">
+            <h2>Controls</h2>
+            <form class="player-names">
+                <div class="input-label">
+                    <label for="p1">X:</label>
+                    <input name="p1" id="p1" type="text" value="Player 1" placeholder="Player 1"/>
+                </div>
+                <div class="input-label">
+                    <label for="p2">O:</label>
+                    <input name="p2" id="p2" type="text" value="Player 2" placeholder="Player 2"/>
+                </div>
+            </form>
+            <button class="reset">RESET</button>
+        </div>
+
     </body>
 </html>

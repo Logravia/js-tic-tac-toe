@@ -1,3 +1,6 @@
+h1, h2 {
+    margin-bottom: 0.3em;
+}
 
 body {
     padding: 1em;
@@ -18,6 +21,32 @@ body {
     grid-template-rows: repeat(3, 33.3%);
 }
 
+.controls {
+    display: flex;
+    flex-direction: column;
+}
+
 .square {
     font-size: 5em;
+}
+
+.controls {
+    text-align: center;
+}
+
+.reset {
+    font-size: 1.2em;
+}
+
+label, input {
+    display: inline;
+}
+
+label {
+    margin-right: 15px;
+}
+
+input {
+    padding-left: 5px;
+    font-size: 0.9em;
 }
